@@ -18,7 +18,7 @@ class Admin extends BaseController
         // 登录
         $user = (new UserModel())->login();
         // return self::showResCode('登录成功', $user);
-        return self::showAdminResCode(20000, ['token'=> "admin-token"]);
+        return self::showAdminResCode(20000, ['token'=> "admin-token",'userinfo' => $user]);
     }
     // 后台登出
     public function logout()
@@ -29,11 +29,17 @@ class Admin extends BaseController
     // info
     public function info()
     {
-        $data["roles"]=["admin"];
-        $data["introduction"]="I am a super administrator";
-        $data["avatar"]="https://wpimg.wallstcn.com/f778738c-e4f8-4870-b634-56703b4acafe.gif";
-        $data["name"]="Super Admin";
-        return self::showAdminResCode(20000, $data);
+        // $data["roles"]=["admin"];
+        // $data["introduction"]="I am a super administrator";
+        // $data["avatar"]="https://wpimg.wallstcn.com/f778738c-e4f8-4870-b634-56703b4acafe.gif";
+        // $data["name"]="Super Admin";
+        // return self::showAdminResCode(20000, $data);
+        // (new UserValidate())->goCheck('getuserinfo'); 
+        // $data = (new UserModel())->getAdminUserInfo();
+        // return self::showAdminResCode(20000,$data);
+
+        $list=(new UserModel)->getAdminUserInfo();
+        return self::showAdminResCode(20000, $list);
     }
     // list
     public function list()

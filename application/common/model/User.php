@@ -858,6 +858,22 @@ class User extends Model
         unset($data['password']);
         return $data;
     }
+    // 获取指定用户详细信息
+    public function getAdminUserInfo()
+    {
+        $currentUserId = request()->userId ? request()->userId : 0;
+        $userid = request()->param('user_id');
+    
+        $name = $this->field('username as name')->where('id', $userid)->select();
+        $avatar = $this->field('userpic as avatar')->where('id', $userid)->select();
+        $introduction = $this->field('phone as introduction')->where('id', $userid)->select();
+       
+        $data['name'] = $name[0]['name'];
+        $data['avatar'] = $avatar[0]['avatar'];
+        $data['introduction'] = $introduction[0]['introduction'];
+        $data['roles'] = ['admin'];
+        return $data;
+    }
   
   
     // 关联黑名单
@@ -952,6 +968,7 @@ class User extends Model
     // 获取近七天新增数据
     public function getCharData()
     {
+      // 四份块数据
       // 近七天新增用户数
        $newVisitisNumber = $this
         ->field('username,create_time as createAt')
@@ -959,11 +976,26 @@ class User extends Model
         ->select();
         $cardNumber['newVisitisNumber'] = count($newVisitisNumber);
       // 近七天新增文章数
-       $newVisitisNumber = $this
+       $messagesNumber = $this
         ->field('username,create_time as createAt')
         ->whereTime('create_time','>','-7 days')
         ->select();
-        $cardNumber['newVisitisNumber'] = count($newVisitisNumber);
+        $cardNumber['messagesNumber'] = count($messagesNumber);
+      // 近七天新增文章数
+       $purchasesNumber = $this
+        ->field('username,create_time as createAt')
+        ->whereTime('create_time','>','-7 days')
+        ->select();
+        $cardNumber['purchasesNumber'] = count($purchasesNumber);
+      // 近七天新增文章数
+       $shoppingsNumber = $this
+        ->field('username,create_time as createAt')
+        ->whereTime('create_time','>','-7 days')
+        ->select();
+        $cardNumber['shoppingsNumber'] = count($shoppingsNumber);
+
+      // 统计图一（折线图）
+       
 
         // 数据返回
         return $cardNumber;
