@@ -29,6 +29,6 @@ class Topic extends BaseController
     {
        
       $list = (new TopicModel())->editHotlist();
-      return self::showResCode('获取成功',['list'=>$list]);
+      return self::showResCode('修改成功',$list);
     }
 }

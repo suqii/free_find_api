@@ -68,9 +68,15 @@ class Topic extends Model
         $topicid = request()->param('topic_id');
         // 修改昵称
         $topic = $this->get($topicid);
-        $topic->title = $params['title'];
-        $topic->titlepic = $params['titlepic'];
-        $topic->desc = $params['desc'];
+        if(isset($params['title'])){
+          $topic->title = $params['title'];
+        }
+        if(isset($params['titlepic'])){
+          $topic->titlepic = $params['titlepic'];
+        }
+        if(isset($params['desc'])){
+          $topic->desc = $params['desc'];
+        }
         $topic->save();
         return $topic;
     }
