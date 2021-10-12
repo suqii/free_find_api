@@ -1000,4 +1000,27 @@ class User extends Model
         // 数据返回
         return $cardNumber;
     }
+    // 密码重置
+    // 修改密码
+    public function adminRepassword()
+    {
+        // // 获取所有参数
+        $params = request()->param();
+        // // 获取用户id
+        // $userid=request()->userId;
+        $userid = request()->param('user_id');
+        return $userid;
+        
+        // // 修改密码
+        // $newpassword = password_hash($params['newpassword'], PASSWORD_DEFAULT);
+        // $res = $this->save([
+        //     'password'=>$newpassword
+        // ], ['id'=>$userid]);
+        // if (!$res) {
+        //     TApiException('修改密码失败', 20009, 200);
+        // }
+        // $user['password'] = $newpassword;
+        // // 更新缓存信息
+        // Cache::set(request()->Token, $user, config('api.token_expire'));
+    }
 }

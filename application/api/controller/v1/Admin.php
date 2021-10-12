@@ -106,4 +106,11 @@ class Admin extends BaseController
         $cardNumber=(new UserModel)->getCharData();
         return self::showAdminResCode(20000, ['cardNumber'=>$cardNumber]);
     }
+    // 话题编辑
+    public function topicEdit()
+    {
+        // $cardNumber=(new UserModel)->getCharData();
+        // return self::showAdminResCode(20000, ['cardNumber'=>$cardNumber]);
+        return 110;
+    }
 }

@@ -24,4 +24,11 @@ class Topic extends BaseController
         $list=(new TopicModel)->getPost();
         return self::showResCode('获取成功',['list'=>$list]);
     }
+    // 话题编辑
+    public function topicEdit()
+    {
+       
+      $list = (new TopicModel())->editHotlist();
+      return self::showResCode('获取成功',['list'=>$list]);
+    }
 }

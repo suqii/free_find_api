@@ -81,6 +81,8 @@ Route::group('api/:version/', function () {
     Route::get('/vue-element-admin/newUser', 'api/:version.Admin/newUser');
     // 首页图表数据
     Route::get('/vue-element-admin/charData', 'api/:version.Admin/charData');
+    // 编辑话题
+    Route::post('/vue-element-admin/user/topicEdit', 'api/:version.Topic/topicEdit');
 });
 
 // 需要验证token
