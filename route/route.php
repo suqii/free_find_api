@@ -57,6 +57,8 @@ Route::group('api/:version/', function () {
     Route::post('wxlogin', 'api/v1.User/wxLogin');
     // 支付宝小程序登录
     Route::post('alilogin', 'api/v1.User/alilogin');
+    // oss
+    Route::post('oss', 'api/v1.Alioss/uploadFile');
 
     // 后台
     // 登录
@@ -83,6 +85,7 @@ Route::group('api/:version/', function () {
     Route::get('/vue-element-admin/charData', 'api/:version.Admin/charData');
     // 编辑话题
     Route::post('/vue-element-admin/user/topicEdit', 'api/:version.Topic/topicEdit');
+   
 });
 
 // 需要验证token
