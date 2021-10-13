@@ -80,4 +80,39 @@ class Topic extends Model
         $topic->save();
         return $topic;
     }
+    // 判断话题是否存在
+    public function isExist($arr=[]){
+      if(!is_array($arr)) return false;
+      
+      // 话题名称
+      if (array_key_exists('title',$arr)) { 
+          return $this->where('title',$arr['title'])->find();
+      }
+     
+      return false;
+  }
+    // 编辑热门话题列表
+    public function addTopic()
+    {
+        // 获取所有参数
+        $param = request()->param();
+        // 验证用户是否存在
+        $topic = $this->isExist(['title'=>$param['title']]);
+        $title = request()->param('title');
+        $desc = request()->param('desc');
+        $type = request()->param('type');
+        $topic_class_id = request()->param('topic_class_id');
+        $titlepic = request()->param('titlepic');
+        // 用户不存在，直接注册
+        if (!$topic) {
+            $topic = self::create([
+            'title'=>$title,
+            'desc'=>$desc,
+            'type'=>$type,
+            'topic_class_id'=>$topic_class_id,
+            'titlepic'=>$titlepic,
+            ]);
+        }
+        return $topic;
+    }
 }

@@ -31,4 +31,11 @@ class Topic extends BaseController
       $list = (new TopicModel())->editHotlist();
       return self::showResCode('修改成功',$list);
     }
+    // 话题新增
+    public function topicAdd()
+    {
+       
+      $list = (new TopicModel())->addTopic();
+      return self::showResCode('修改成功',$list);
+    }
 }
