@@ -5,11 +5,10 @@ namespace app\common\model;
 use think\Model;
 
 class Topic extends Model
-
 {
 
   // 自动写入时间
-  protected $autoWriteTimestamp = true;
+    protected $autoWriteTimestamp = true;
     // 获取热门话题列表
     public function gethotlist()
     {
@@ -72,29 +71,32 @@ class Topic extends Model
         $topicid = request()->param('topic_id');
         // 修改昵称
         $topic = $this->get($topicid);
-        if(isset($params['title'])){
-          $topic->title = $params['title'];
+        if (isset($params['title'])) {
+            $topic->title = $params['title'];
         }
-        if(isset($params['titlepic'])){
-          $topic->titlepic = $params['titlepic'];
+        if (isset($params['titlepic'])) {
+            $topic->titlepic = $params['titlepic'];
         }
-        if(isset($params['desc'])){
-          $topic->desc = $params['desc'];
+        if (isset($params['desc'])) {
+            $topic->desc = $params['desc'];
         }
         $topic->save();
         return $topic;
     }
     // 判断话题是否存在
-    public function isExist($arr=[]){
-      if(!is_array($arr)) return false;
+    public function isExist($arr=[])
+    {
+        if (!is_array($arr)) {
+            return false;
+        }
       
-      // 话题名称
-      if (array_key_exists('title',$arr)) { 
-          return $this->where('title',$arr['title'])->find();
-      }
+        // 话题名称
+        if (array_key_exists('title', $arr)) {
+            return $this->where('title', $arr['title'])->find();
+        }
      
-      return false;
-  }
+        return false;
+    }
     // 编辑热门话题列表
     public function addTopic()
     {
@@ -118,5 +120,17 @@ class Topic extends Model
             ]);
         }
         return $topic;
+    }
+    // 删除热门话题列表
+    public function deleteTopic()
+    {
+      $topic_id = request()->param('topic_id');
+      $result = $this->where('id', $topic_id)->delete();
+      if ($result==1) {
+          $msg = '删除成功';
+      } else {
+          $msg = '删除失败';
+      }
+      return $msg;
     }
 }

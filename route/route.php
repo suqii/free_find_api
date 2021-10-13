@@ -87,6 +87,8 @@ Route::group('api/:version/', function () {
     Route::post('/vue-element-admin/topic/topicEdit', 'api/:version.Topic/topicEdit');
     // 新增某分类话题
     Route::post('/vue-element-admin/topic/topicAdd', 'api/:version.Topic/topicAdd');
+    // 删除某分类话题
+    Route::post('/vue-element-admin/topic/topicDelete', 'api/:version.Topic/topicDelete');
     // 新增分类
     Route::post('/vue-element-admin/topic/topicClassAdd', 'api/:version.TopicClass/topicClassAdd');
     // 编辑分类
