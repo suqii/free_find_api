@@ -83,10 +83,12 @@ Route::group('api/:version/', function () {
     Route::get('/vue-element-admin/newUser', 'api/:version.Admin/newUser');
     // 首页图表数据
     Route::get('/vue-element-admin/charData', 'api/:version.Admin/charData');
-    // 编辑话题
-    Route::post('/vue-element-admin/user/topicEdit', 'api/:version.Topic/topicEdit');
-    // 新增话题
-    Route::post('/vue-element-admin/user/topicAdd', 'api/:version.Topic/topicAdd');
+    // 编辑某分类话题
+    Route::post('/vue-element-admin/topic/topicEdit', 'api/:version.Topic/topicEdit');
+    // 新增某分类话题
+    Route::post('/vue-element-admin/topic/topicAdd', 'api/:version.Topic/topicAdd');
+    // 新增分类
+    Route::post('/vue-element-admin/topic/topicClassAdd', 'api/:version.TopicClass/topicClassAdd');
    
 });
 

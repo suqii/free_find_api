@@ -23,6 +23,7 @@ class Topic extends BaseController
         (new TopicClassValidate())->goCheck();
         $list=(new TopicModel)->getPost();
         return self::showResCode('获取成功',['list'=>$list]);
+        // return self::showAdminResCode(20000, ['list'=>$list]);
     }
     // 话题编辑
     public function topicEdit()
@@ -36,6 +37,6 @@ class Topic extends BaseController
     {
        
       $list = (new TopicModel())->addTopic();
-      return self::showResCode('修改成功',$list);
+      return self::showResCode('新增成功',$list);
     }
 }

@@ -5,7 +5,11 @@ namespace app\common\model;
 use think\Model;
 
 class Topic extends Model
+
 {
+
+  // 自动写入时间
+  protected $autoWriteTimestamp = true;
     // 获取热门话题列表
     public function gethotlist()
     {
