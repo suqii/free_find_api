@@ -23,7 +23,8 @@ class PostClass extends BaseController
         // 验证分类id和分页数
         (new TopicClassValidate())->goCheck();
         $list=(new PostClassModel)->getPost();
-        return self::showResCode('获取成功',['list'=>$list]);
+        // return self::showResCode('获取成功',['list'=>$list]);
+        return self::showAdminResCode(20000, ['data'=>$list]);
     }
     
 }
