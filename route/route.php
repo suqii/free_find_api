@@ -95,6 +95,12 @@ Route::group('api/:version/', function () {
     Route::post('/vue-element-admin/topic/topicClassEdit', 'api/:version.TopicClass/topicClassEdit');
     // 删除分类
     Route::post('/vue-element-admin/topic/topicClassDelete', 'api/:version.TopicClass/topicClassDelete');
+    // 新增轮播图
+    Route::post('/vue-element-admin/adsense/adsenseAdd', 'api/:version.adsense/adsenseAdd');
+    // 编辑轮播图
+    Route::post('/vue-element-admin/adsense/adsenseEdit', 'api/:version.adsense/adsenseEdit');
+    // 删除轮播图
+    Route::post('/vue-element-admin/adsense/adsenseDelete', 'api/:version.adsense/adsenseDelete');
    
 });
 
