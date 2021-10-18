@@ -73,6 +73,9 @@ class TopicClass extends Model
         if (isset($params['classname'])) {
             $topicClass->classname = $params['classname'];
         }
+        if (isset($params['classpic'])) {
+          $topicClass->classpic = $params['classpic'];
+       }
         $topicClass->save();
         return $topicClass;
     }
