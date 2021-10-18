@@ -56,7 +56,7 @@ class User extends BaseController
         (new UserValidate())->goCheck('post'); 
         $list = (new UserModel())->getPostList();
         // return self::showResCode('获取成功',['list'=>$list]);
-        return self::showAdminResCode(20000, ['data'=>$list]);
+        return self::showAdminResCode(20000, ['list'=>$list]);
     }
 
     // 用户发布文章列表
@@ -161,8 +161,9 @@ class User extends BaseController
     public function getuserinfo(){
         (new UserValidate())->goCheck('getuserinfo'); 
         $data = (new UserModel())->getUserInfo();
-        return self::showResCode('获取成功',['list'=>$list]);
-        // return self::showAdminResCode(20000,$data);
+        // return self::showResCode('获取成功',['list'=>$list]);
+        // return self::showAdminResCode(20000,['list'=>$list]);
+        return self::showAdminResCode(20000,$data);
     }
   
   	// 微信小程序登录
