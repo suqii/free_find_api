@@ -96,7 +96,7 @@ class User extends BaseController
 
     // 修改资料
     public function editinfo(){
-        (new UserValidate())->goCheck('edituserinfo');
+        // (new UserValidate())->goCheck('edituserinfo');
         (new UserModel())->editUserinfo();
         return self::showResCodeWithOutData('修改成功');
     }
