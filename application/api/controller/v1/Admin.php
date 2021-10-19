@@ -117,7 +117,8 @@ class Admin extends BaseController
     // 日志记录
     public function getGitLog()
     {
-      $file = file_get_contents('freeFind-api-log.txt'); 
-      return self::showAdminResCode(20000, ['freeFind_api_log'=>$file]);
+      $freeFindLog = file_get_contents('freeFind-api-log.txt'); 
+      $vueElAdLog = file_get_contents('vue-element-admin-log.txt'); 
+      return self::showAdminResCode(20000, ['freeFind_api_log'=>$freeFindLog,'vue_element_admin_log'=>$vueElAdLog]);
     }
 }
