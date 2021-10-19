@@ -101,6 +101,8 @@ Route::group('api/:version/', function () {
     Route::post('/vue-element-admin/adsense/adsenseEdit', 'api/:version.adsense/adsenseEdit');
     // 删除轮播图
     Route::post('/vue-element-admin/adsense/adsenseDelete', 'api/:version.adsense/adsenseDelete');
+    // 获取git日志
+    Route::get('/vue-element-admin/getGitLog', 'api/:version.Admin/getGitLog');
    
 });
 

@@ -7,6 +7,7 @@ use think\Request;
 use app\common\controller\BaseController;
 use app\common\validate\UserValidate;
 use app\common\model\User as UserModel;
+use think\File;
 
 class Admin extends BaseController
 {
@@ -112,5 +113,11 @@ class Admin extends BaseController
         // $cardNumber=(new UserModel)->getCharData();
         // return self::showAdminResCode(20000, ['cardNumber'=>$cardNumber]);
         return 110;
+    }
+    // 日志记录
+    public function getGitLog()
+    {
+      $file = file_get_contents('freeFind-api-log.txt'); 
+      return self::showAdminResCode(20000, ['freeFind_api_log'=>$file]);
     }
 }
