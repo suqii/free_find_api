@@ -184,6 +184,17 @@ class Post extends Model
                 return $query->where('user_id',$userId);
             }])->withCount(['Ding','Cai','comment'])->page($param['page'],10)->order('create_time','desc')->select();
     }
-  
+  // 删除热门话题列表
+  public function deletePost()
+  {
+    $post_id = request()->param('post_id');
+    $result = $this->where('id', $post_id)->delete();
+    if ($result==1) {
+        $msg = '删除成功';
+    } else {
+        $msg = '删除失败';
+    }
+    return $msg;
+  }
   
 }
