@@ -105,6 +105,8 @@ Route::group('api/:version/', function () {
     Route::get('/vue-element-admin/getGitLog', 'api/:version.Admin/getGitLog');
     // 删除文章
     Route::post('post/deletePost', 'api/v1.Post/deletePost');
+    // 词云内容获取
+    Route::get('wordCloud/wordCloud', 'api/v1.Post/wordCloud');
    
 });
 
