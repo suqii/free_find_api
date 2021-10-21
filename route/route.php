@@ -109,6 +109,10 @@ Route::group('api/:version/', function () {
     Route::get('wordCloud/wordCloud', 'api/v1.Post/wordCloud');
     // 词云内容获取
     Route::get('wordCloud/wordCloudCount', 'api/v1.Post/wordCloudCount');
+    // 词云内容获取
+    Route::get('char/userChar', 'api/v1.Admin/userChar');
+    // 获取首页折线图数据
+    Route::get('vue-element-admin/lineChartData', 'api/v1.Admin/lineChartData');
    
 });
 

@@ -35,7 +35,7 @@ class Admin extends BaseController
         // $data["avatar"]="https://wpimg.wallstcn.com/f778738c-e4f8-4870-b634-56703b4acafe.gif";
         // $data["name"]="Super Admin";
         // return self::showAdminResCode(20000, $data);
-        // (new UserValidate())->goCheck('getuserinfo'); 
+        // (new UserValidate())->goCheck('getuserinfo');
         // $data = (new UserModel())->getAdminUserInfo();
         // return self::showAdminResCode(20000,$data);
 
@@ -105,7 +105,7 @@ class Admin extends BaseController
     public function charData()
     {
         $cardNumber=(new UserModel)->getCharData();
-        return self::showAdminResCode(20000, ['cardNumber'=>$cardNumber]);
+        return self::showAdminResCode(20000, ['line'=>$cardNumber]);
     }
     // 话题编辑
     public function topicEdit()
@@ -117,8 +117,14 @@ class Admin extends BaseController
     // 日志记录
     public function getGitLog()
     {
-      $freeFindLog = file_get_contents('freeFind-api-log.txt'); 
-      $vueElAdLog = file_get_contents('vue-element-admin-log.txt'); 
-      return self::showAdminResCode(20000, ['freeFind_api_log'=>$freeFindLog,'vue_element_admin_log'=>$vueElAdLog]);
+        $freeFindLog = file_get_contents('freeFind-api-log.txt');
+        $vueElAdLog = file_get_contents('vue-element-admin-log.txt');
+        return self::showAdminResCode(20000, ['freeFind_api_log'=>$freeFindLog,'vue_element_admin_log'=>$vueElAdLog]);
+    }
+    // 获取首页折线图数据
+    public function lineChartData()
+    {
+      $cardNumber=(new UserModel)->lineChartData();
+      return self::showAdminResCode(20000, ['line'=>$cardNumber]);
     }
 }

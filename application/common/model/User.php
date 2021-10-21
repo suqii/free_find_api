@@ -909,33 +909,33 @@ class User extends Model
     }
     // 删除用户
     public function userDelete()
-    { 
-      $currentUserId = request()->userId ? request()->userId : 0;
-      $userid = request()->param('user_id');
-      return $this->where('id', $userid)->delete();
+    {
+        $currentUserId = request()->userId ? request()->userId : 0;
+        $userid = request()->param('user_id');
+        return $this->where('id', $userid)->delete();
         // return $userid;
     }
     // 编辑用户
     public function userEdit()
-    { 
-       // 获取所有参数
-       $params = request()->param();
-       // 获取用户id
-       $userid = request()->param('user_id');
-       // 修改昵称
-       $user = $this->get($userid);
-       $user->email = $params['email'];
-       $user->save();
-      //  // 修改用户信息表
-       $userinfo = $user->userinfo()->find();
+    {
+        // 获取所有参数
+        $params = request()->param();
+        // 获取用户id
+        $userid = request()->param('user_id');
+        // 修改昵称
+        $user = $this->get($userid);
+        $user->email = $params['email'];
+        $user->save();
+        //  // 修改用户信息表
+        $userinfo = $user->userinfo()->find();
        
-       $userinfo->sex = $params['sex'];
-      //  $userinfo->qg = $params['qg'];
-       $userinfo->job = $params['job'];
-      //  $userinfo->birthday = $params['birthday'];
-       $userinfo->path = $params['path'];
-       $userinfo->save();
-      //  return true;
+        $userinfo->sex = $params['sex'];
+        //  $userinfo->qg = $params['qg'];
+        $userinfo->job = $params['job'];
+        //  $userinfo->birthday = $params['birthday'];
+        $userinfo->path = $params['path'];
+        $userinfo->save();
+        //  return true;
         return $userinfo;
     }
     //  修改头像（后台）
@@ -968,37 +968,64 @@ class User extends Model
     // 获取近七天新增数据
     public function getCharData()
     {
-      // 四份块数据
-      // 近七天新增用户数
-       $newVisitisNumber = $this
-        ->field('username,create_time as createAt')
-        ->whereTime('create_time','>','-7 days')
-        ->select();
-        $cardNumber['newVisitisNumber'] = count($newVisitisNumber);
-      // 近七天新增文章数
-       $messagesNumber = $this
-        ->field('username,create_time as createAt')
-        ->whereTime('create_time','>','-7 days')
-        ->select();
-        $cardNumber['messagesNumber'] = count($messagesNumber);
-      // 近七天新增文章数
-       $purchasesNumber = $this
-        ->field('username,create_time as createAt')
-        ->whereTime('create_time','>','-7 days')
-        ->select();
-        $cardNumber['purchasesNumber'] = count($purchasesNumber);
-      // 近七天新增文章数
-       $shoppingsNumber = $this
-        ->field('username,create_time as createAt')
-        ->whereTime('create_time','>','-7 days')
-        ->select();
-        $cardNumber['shoppingsNumber'] = count($shoppingsNumber);
+        // 近七天新增用户数
+        $numMan = array();
+        $numWoman = array();
+        $dataX = array();
+        for ($i=0;$i<8;$i+=1) {
+            $startDay = '-'.$i. 'days';
+            $endDay = '-'.($i-1). 'days';
+            // 统计男性用户
+            $newUserMan = $this
+            ->alias('u')
+            ->join('userinfo i', 'i.user_id=u.id')
+            ->whereBetweenTime('create_time', $startDay, $endDay)
+            ->where('i.sex', 1)
+            ->field('u.username,u.create_time as createAt,i.sex as sex')
+            ->select();
+            array_unshift($numMan, count($newUserMan));
+            // 统计女性用户
+            $newUserWoman = $this
+            ->alias('u')
+            ->join('userinfo i', 'i.user_id=u.id')
+            ->whereBetweenTime('create_time', $startDay, $endDay)
+            ->where('i.sex', 2)
+            ->field('u.username,u.create_time as createAt,i.sex as sex')
+            ->select();
+            array_unshift($numWoman, count($newUserWoman));
+            // 时间
+            $time = date('m-d', strtotime($startDay));
+            array_unshift($dataX, $time);
+        }
+        array_splice($numMan, 0, 1);
+        array_splice($numWoman, 0, 1);
+        $line['dataWoman'] = $numWoman;
+        $line['dataMan'] = $numMan;
+        $line['dataX'] = $dataX;
+        // // 近七天新增文章数
+        //  $messagesNumber = $this
+        //   ->field('username,create_time as createAt')
+        //   ->whereTime('create_time','>','-7 days')
+        //   ->select();
+        //   $cardNumber['messagesNumber'] = count($messagesNumber);
+        // // 近七天新增文章数
+        //  $purchasesNumber = $this
+        //   ->field('username,create_time as createAt')
+        //   ->whereTime('create_time','>','-7 days')
+        //   ->select();
+        //   $cardNumber['purchasesNumber'] = count($purchasesNumber);
+        // // 近七天新增文章数
+        //  $shoppingsNumber = $this
+        //   ->field('username,create_time as createAt')
+        //   ->whereTime('create_time','>','-7 days')
+        //   ->select();
+        //   $cardNumber['shoppingsNumber'] = count($shoppingsNumber);
 
-      // 统计图一（折线图）
+        // 统计图一（折线图）
        
 
         // 数据返回
-        return $cardNumber;
+        return $line;
     }
     // 密码重置
     // 修改密码
@@ -1022,5 +1049,45 @@ class User extends Model
         // $user['password'] = $newpassword;
         // // 更新缓存信息
         // Cache::set(request()->Token, $user, config('api.token_expire'));
+    }
+    // 获取首页折线图数据
+    public function lineChartData()
+    {
+        // 近七天新增用户数
+        $numMan = array();
+        $numWoman = array();
+        $dataX = array();
+        for ($i=0;$i<8;$i+=1) {
+            $startDay = '-'.$i. 'days';
+            $endDay = '-'.($i-1). 'days';
+            // 统计男性用户
+            $newUserMan = $this
+            ->alias('u')
+            ->join('userinfo i', 'i.user_id=u.id')
+            ->whereBetweenTime('create_time', $startDay, $endDay)
+            ->where('i.sex', 1)
+            ->field('u.username,u.create_time as createAt,i.sex as sex')
+            ->select();
+            array_unshift($numMan, count($newUserMan));
+            // 统计女性用户
+            $newUserWoman = $this
+            ->alias('u')
+            ->join('userinfo i', 'i.user_id=u.id')
+            ->whereBetweenTime('create_time', $startDay, $endDay)
+            ->where('i.sex', 2)
+            ->field('u.username,u.create_time as createAt,i.sex as sex')
+            ->select();
+            array_unshift($numWoman, count($newUserWoman));
+            // 时间
+            $time = date('m-d', strtotime($startDay));
+            array_unshift($dataX, $time);
+        }
+        array_splice($numMan, 0, 1);
+        array_splice($numWoman, 0, 1);
+        $line['dataWoman'] = $numWoman;
+        $line['dataMan'] = $numMan;
+        $line['dataX'] = $dataX;
+      
+        return $line;
     }
 }
