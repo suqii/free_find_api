@@ -235,14 +235,16 @@ class Post extends Model
         $numMan = array();
         $numWoman = array();
         $dataX = array();
-        for ($i=0;$i<8;$i+=1) {
-            $startDay = '-'.$i. 'days';
-            $endDay = '-'.($i-1). 'days';
+        $num=-2;
+        for ($i=0;$i<7;$i+=1) {
+          $num+=1;
+          $startDay = date('Y-m-d', strtotime('-'.($num+1).'days'));
+          $endDay = date('Y-m-d', strtotime('-'.($num).'days'));
             // 统计男性用户
             $newPostMan = $this
             ->alias('p')
             ->join('userinfo i', 'i.user_id=p.user_id')
-            ->whereBetweenTime('create_time', $startDay, $endDay)
+            ->where('create_time','between time',[$startDay,$endDay])
             ->where('i.sex', 1)
             ->field('p.title')
             ->select();
@@ -251,13 +253,13 @@ class Post extends Model
             $newPostWoman = $this
             ->alias('p')
             ->join('userinfo i', 'i.user_id=p.user_id')
-            ->whereBetweenTime('create_time', $startDay, $endDay)
+            ->where('create_time','between time',[$startDay,$endDay])
             ->where('i.sex', 2)
             ->field('p.title')
             ->select();
             array_unshift($numWoman, count($newPostWoman));
             // 时间
-            $time = date('m-d', strtotime($startDay));
+            $time = date('m-d', strtotime('-'.($num+1).'days'));
             array_unshift($dataX, $time);
         }
         $newPostNum = $this
@@ -266,8 +268,8 @@ class Post extends Model
             ->whereBetweenTime('create_time', '-6days','-0days')
             ->field('p.title')
             ->select();
-        array_splice($numMan, 0, 1);
-        array_splice($numWoman, 0, 1);
+        // array_splice($numMan, 0, 1);
+        // array_splice($numWoman, 0, 1);
         $postCharData['totalNum'] = count($newPostNum);
         $postCharData['dataWoman'] = $numWoman;
         $postCharData['dataMan'] = $numMan;

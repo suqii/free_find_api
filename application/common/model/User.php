@@ -1057,14 +1057,16 @@ class User extends Model
         $numMan = array();
         $numWoman = array();
         $dataX = array();
-        for ($i=0;$i<8;$i+=1) {
-            $startDay = '-'.$i. 'days';
-            $endDay = '-'.($i-1). 'days';
+        $num=-2;
+        for ($i=0;$i<7;$i+=1) {
+          $num+=1;
+          $startDay = date('Y-m-d', strtotime('-'.($num+1).'days'));
+          $endDay = date('Y-m-d', strtotime('-'.($num).'days'));
             // 统计男性用户
             $newUserMan = $this
             ->alias('u')
             ->join('userinfo i', 'i.user_id=u.id')
-            ->whereBetweenTime('create_time', $startDay, $endDay)
+            ->where('create_time','between time',[$startDay,$endDay])
             ->where('i.sex', 1)
             ->field('u.username,u.create_time as createAt,i.sex as sex')
             ->select();
@@ -1073,26 +1075,23 @@ class User extends Model
             $newUserWoman = $this
             ->alias('u')
             ->join('userinfo i', 'i.user_id=u.id')
-            ->whereBetweenTime('create_time', $startDay, $endDay)
+            ->where('create_time','between time',[$startDay,$endDay])
             ->where('i.sex', 2)
             ->field('u.username,u.create_time as createAt,i.sex as sex')
             ->select();
             array_unshift($numWoman, count($newUserWoman));
             // 时间
-            $time = date('m-d', strtotime($startDay));
+            $time = date('m-d', strtotime('-'.($num+1).'days'));
             array_unshift($dataX, $time);
         }
         $newUserNum = $this
-            ->whereBetweenTime('create_time', '-6days','-0days')
+            ->whereBetweenTime('create_time', '-6days', '-0days')
             ->field('username')
             ->select();
-        array_splice($numMan, 0, 1);
-        array_splice($numWoman, 0, 1);
         $userCharData['totalNum'] = count($newUserNum);
         $userCharData['dataWoman'] = $numWoman;
         $userCharData['dataMan'] = $numMan;
         $userCharData['dataX'] = $dataX;
-      
         return $userCharData;
     }
 }
