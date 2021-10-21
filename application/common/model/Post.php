@@ -228,4 +228,43 @@ class Post extends Model
         }
         return $con;
     }
+    // 获取首页折线图数据
+    public function lineCharPostData()
+    {
+      // 近七天新增用户数
+        $numMan = array();
+        $numWoman = array();
+        $dataX = array();
+        for ($i=0;$i<8;$i+=1) {
+            $startDay = '-'.$i. 'days';
+            $endDay = '-'.($i-1). 'days';
+            // 统计男性用户
+            $newPostMan = $this
+            ->alias('p')
+            ->join('userinfo i', 'i.user_id=p.user_id')
+            ->whereBetweenTime('create_time', $startDay, $endDay)
+            ->where('i.sex', 1)
+            ->field('p.title')
+            ->select();
+            array_unshift($numMan, count($newPostMan));
+            // 统计女性用户
+            $newPostWoman = $this
+            ->alias('p')
+            ->join('userinfo i', 'i.user_id=p.user_id')
+            ->whereBetweenTime('create_time', $startDay, $endDay)
+            ->where('i.sex', 2)
+            ->field('p.title')
+            ->select();
+            array_unshift($numWoman, count($newPostWoman));
+            // 时间
+            $time = date('m-d', strtotime($startDay));
+            array_unshift($dataX, $time);
+        }
+        array_splice($numMan, 0, 1);
+        array_splice($numWoman, 0, 1);
+        $postCharData['dataWoman'] = $numWoman;
+        $postCharData['dataMan'] = $numMan;
+        $postCharData['dataX'] = $dataX;
+        return $postCharData;
+    }
 }

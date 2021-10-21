@@ -7,6 +7,7 @@ use think\Request;
 use app\common\controller\BaseController;
 use app\common\validate\UserValidate;
 use app\common\model\User as UserModel;
+use app\common\model\Post as PostModel;
 use think\File;
 
 class Admin extends BaseController
@@ -124,7 +125,8 @@ class Admin extends BaseController
     // 获取首页折线图数据
     public function lineChartData()
     {
-      $cardNumber=(new UserModel)->lineChartData();
-      return self::showAdminResCode(20000, ['line'=>$cardNumber]);
+      $UserData=(new UserModel)->lineCharUserData();
+      $PostData=(new PostModel)->lineCharPostData();
+      return self::showAdminResCode(20000, ['PostData'=>$PostData,'UserData'=>$UserData]);
     }
 }

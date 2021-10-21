@@ -1051,7 +1051,7 @@ class User extends Model
         // Cache::set(request()->Token, $user, config('api.token_expire'));
     }
     // 获取首页折线图数据
-    public function lineChartData()
+    public function lineCharUserData()
     {
         // 近七天新增用户数
         $numMan = array();
@@ -1084,10 +1084,10 @@ class User extends Model
         }
         array_splice($numMan, 0, 1);
         array_splice($numWoman, 0, 1);
-        $line['dataWoman'] = $numWoman;
-        $line['dataMan'] = $numMan;
-        $line['dataX'] = $dataX;
+        $userCharDta['dataWoman'] = $numWoman;
+        $userCharDta['dataMan'] = $numMan;
+        $userCharDta['dataX'] = $dataX;
       
-        return $line;
+        return $userCharDta;
     }
 }
