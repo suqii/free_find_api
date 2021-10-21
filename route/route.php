@@ -107,6 +107,8 @@ Route::group('api/:version/', function () {
     Route::post('post/deletePost', 'api/v1.Post/deletePost');
     // 词云内容获取
     Route::get('wordCloud/wordCloud', 'api/v1.Post/wordCloud');
+    // 词云内容获取
+    Route::get('wordCloud/wordCloudCount', 'api/v1.Post/wordCloudCount');
    
 });
 

@@ -47,13 +47,19 @@ class Post extends BaseController
     // 删除文章
     public function deletePost()
     {
-      $list = (new PostModel) -> deletePost();
-      return self::showAdminResCode(20000, ['data'=>$list]);
+        $list = (new PostModel) -> deletePost();
+        return self::showAdminResCode(20000, ['data'=>$list]);
     }
     // 词云内容
     public function wordCloud()
     {
-      $list = (new PostModel) -> wordCloud();
-      return self::showAdminResCode(20000, ['data'=>$list]);
+        $list = (new PostModel) -> wordCloud();
+        return self::showAdminResCode(20000, ['data'=>$list]);
+    }
+    // 词云统计
+    public function wordCloudCount()
+    {
+        $wordCloud = file_get_contents('wordCloudCount.txt');
+        return self::showAdminResCode(20000, ['wordCloud'=>$wordCloud]);
     }
 }
