@@ -1082,12 +1082,17 @@ class User extends Model
             $time = date('m-d', strtotime($startDay));
             array_unshift($dataX, $time);
         }
+        $newUserNum = $this
+            ->whereBetweenTime('create_time', '-6days','-0days')
+            ->field('username')
+            ->select();
         array_splice($numMan, 0, 1);
         array_splice($numWoman, 0, 1);
-        $userCharDta['dataWoman'] = $numWoman;
-        $userCharDta['dataMan'] = $numMan;
-        $userCharDta['dataX'] = $dataX;
+        $userCharData['totalNum'] = count($newUserNum);
+        $userCharData['dataWoman'] = $numWoman;
+        $userCharData['dataMan'] = $numMan;
+        $userCharData['dataX'] = $dataX;
       
-        return $userCharDta;
+        return $userCharData;
     }
 }

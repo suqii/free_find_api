@@ -260,8 +260,15 @@ class Post extends Model
             $time = date('m-d', strtotime($startDay));
             array_unshift($dataX, $time);
         }
+        $newPostNum = $this
+            ->alias('p')
+            ->join('userinfo i', 'i.user_id=p.user_id')
+            ->whereBetweenTime('create_time', '-6days','-0days')
+            ->field('p.title')
+            ->select();
         array_splice($numMan, 0, 1);
         array_splice($numWoman, 0, 1);
+        $postCharData['totalNum'] = count($newPostNum);
         $postCharData['dataWoman'] = $numWoman;
         $postCharData['dataMan'] = $numMan;
         $postCharData['dataX'] = $dataX;
