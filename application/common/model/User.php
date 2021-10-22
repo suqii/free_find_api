@@ -912,8 +912,9 @@ class User extends Model
     {
         $currentUserId = request()->userId ? request()->userId : 0;
         $userid = request()->param('user_id');
+        $post = \Db::table('post')->where('user_id', $userid)->delete();
         return $this->where('id', $userid)->delete();
-        // return $userid;
+        // return $post2;
     }
     // 禁用用户
     public function changeStatusDisable()
