@@ -887,7 +887,7 @@ class User extends Model
     // 用户列表
     public function userList()
     {
-        return $this->field('id,username,phone,email,userpic,create_time')->select();
+        return $this->field('id,username,phone,email,userpic,create_time,status')->select();
     }
     // 新增用户
     public function userCreate()
@@ -914,6 +914,28 @@ class User extends Model
         $userid = request()->param('user_id');
         return $this->where('id', $userid)->delete();
         // return $userid;
+    }
+    // 禁用用户
+    public function changeStatusDisable()
+    {
+      $currentUserId = request()->userId ? request()->userId : 0;
+      $userid = request()->param('user_id');
+      // 修改昵称
+      $user = $this->get($userid);
+      $user->status = 0;
+      $user->save();
+      return $user;
+    }
+    // 解除禁用
+    public function changeStatusAble()
+    {
+      $currentUserId = request()->userId ? request()->userId : 0;
+      $userid = request()->param('user_id');
+      // 修改昵称
+      $user = $this->get($userid);
+      $user->status = 1;
+      $user->save();
+      return $user;
     }
     // 编辑用户
     public function userEdit()

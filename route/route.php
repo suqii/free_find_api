@@ -113,6 +113,10 @@ Route::group('api/:version/', function () {
     Route::get('char/userChar', 'api/v1.Admin/userChar');
     // 获取首页折线图数据
     Route::get('vue-element-admin/lineChartData', 'api/v1.Admin/lineChartData');
+    // 禁用用户
+    Route::post('/vue-element-admin/user/changeStatusDisable', 'api/:version.Admin/changeStatusDisable');
+    // 解除禁用
+    Route::post('/vue-element-admin/user/changeStatusAble', 'api/:version.Admin/changeStatusAble');
    
 });
 

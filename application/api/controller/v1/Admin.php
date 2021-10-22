@@ -134,4 +134,16 @@ class Admin extends BaseController
       return self::showAdminResCode(20000, ['PostData'=>$PostData,'UserData'=>$UserData,'TopicData'=>$TopicData,'pieChartData'=>$PieData,'barChartData'=>$BarData]);
       // return self::showAdminResCode(20000, ['barChartData'=>$BarData]);
     }
+    // 禁用用户
+    public function changeStatusDisable()
+    {
+        $user = (new UserModel())->changeStatusDisable();
+        return self::showAdminResCode(20000, $user);
+    }
+    // 解除禁用
+    public function changeStatusAble()
+    {
+        $user = (new UserModel())->changeStatusAble();
+        return self::showAdminResCode(20000, $user);
+    }
 }
