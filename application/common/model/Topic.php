@@ -124,13 +124,41 @@ class Topic extends Model
     // 删除热门话题列表
     public function deleteTopic()
     {
-      $topic_id = request()->param('topic_id');
-      $result = $this->where('id', $topic_id)->delete();
-      if ($result==1) {
-          $msg = '删除成功';
-      } else {
-          $msg = '删除失败';
-      }
-      return $msg;
+        $topic_id = request()->param('topic_id');
+        $result = $this->where('id', $topic_id)->delete();
+        if ($result==1) {
+            $msg = '删除成功';
+        } else {
+            $msg = '删除失败';
+        }
+        return $msg;
+    }
+    // 首页折线图数据
+    public function lineCharTopicModelData()
+    {
+        $data = $this
+        ->alias('tp')
+        ->join('topic_post tpp', 'tp.id=tpp.topic_id')
+        ->field('tp.id,tp.title,count(tpp.id) as topicNum')
+        // ->order('topicNum desc')
+        ->group('tpp.topic_id')
+        ->limit(7)
+        ->select();
+        $totalNum = $this
+        ->alias('tp')
+        ->join('topic_post tpp', 'tp.id=tpp.topic_id')
+        ->field('count(tpp.id) as totalNum')
+        ->select();
+        $title = array();
+        $topicNum = array();
+        $num = count($data);
+        for ($x = 0; $x < $num; $x++) {
+            array_unshift($title, $data[$x]['title']);
+            array_unshift($topicNum, $data[$x]['topicNum']);
+        }
+        $TopicData['title'] = $title;
+        $TopicData['topicNum'] = $topicNum;
+        $TopicData['totalNum'] = $totalNum[0]['totalNum'];
+        return $TopicData;
     }
 }

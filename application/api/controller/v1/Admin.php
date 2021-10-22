@@ -8,6 +8,7 @@ use app\common\controller\BaseController;
 use app\common\validate\UserValidate;
 use app\common\model\User as UserModel;
 use app\common\model\Post as PostModel;
+use app\common\model\Topic as TopicModel;
 use think\File;
 
 class Admin extends BaseController
@@ -127,6 +128,7 @@ class Admin extends BaseController
     {
       $UserData=(new UserModel)->lineCharUserData();
       $PostData=(new PostModel)->lineCharPostData();
-      return self::showAdminResCode(20000, ['PostData'=>$PostData,'UserData'=>$UserData]);
+      $TopicData = (new TopicModel())->lineCharTopicModelData();
+      return self::showAdminResCode(20000, ['PostData'=>$PostData,'UserData'=>$UserData,'TopicData'=>$TopicData]);
     }
 }
