@@ -161,4 +161,45 @@ class Topic extends Model
         $TopicData['totalNum'] = $totalNum[0]['totalNum'];
         return $TopicData;
     }
+    // 首页折线图数据
+    public function lineCharTopicClassModelData()
+    {
+        $data = $this
+        ->alias('tp')
+        ->join('topic_post tpp', 'tp.id=tpp.topic_id')
+        ->join('topic_class tpc', 'tp.topic_class_id=tpc.id')
+        ->field('tp.id,tpc.classname,count(tpp.id) as topicNum')
+        
+        ->group('tpp.topic_id')
+        ->limit(7)
+        ->select();
+       
+        return $data;
+    }
+    // 首页折饼图数据
+    public function pieCharData()
+    {
+      $data = $this
+      ->alias('tp')
+      ->join('topic_post tpp', 'tp.id=tpp.topic_id')
+      ->field('tp.id,tp.title,count(tpp.id) as topicNum')
+      // ->order('topicNum desc')
+      ->group('tpp.topic_id')
+      ->limit(7)
+      ->select();
+     
+      $title = array();
+      $topicNum = array();
+      $num = count($data);
+      for ($x = 0; $x < $num; $x++) {
+        $seriesDataItem['value'] = $data[$x]['topicNum'];
+        $seriesDataItem['name'] = $data[$x]['title'];
+          array_unshift($title, $data[$x]['title']);
+          array_unshift($topicNum, $seriesDataItem);
+      }
+      $PieData['legendData'] = $title;
+      $PieData['seriesData'] = $topicNum;
+     
+      return $PieData;
+    }
 }

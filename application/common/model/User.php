@@ -1059,14 +1059,14 @@ class User extends Model
         $dataX = array();
         $num=-2;
         for ($i=0;$i<7;$i+=1) {
-          $num+=1;
-          $startDay = date('Y-m-d', strtotime('-'.($num+1).'days'));
-          $endDay = date('Y-m-d', strtotime('-'.($num).'days'));
+            $num+=1;
+            $startDay = date('Y-m-d', strtotime('-'.($num+1).'days'));
+            $endDay = date('Y-m-d', strtotime('-'.($num).'days'));
             // 统计男性用户
             $newUserMan = $this
             ->alias('u')
             ->join('userinfo i', 'i.user_id=u.id')
-            ->where('create_time','between time',[$startDay,$endDay])
+            ->where('create_time', 'between time', [$startDay,$endDay])
             ->where('i.sex', 1)
             ->field('u.username,u.create_time as createAt,i.sex as sex')
             ->select();
@@ -1075,7 +1075,7 @@ class User extends Model
             $newUserWoman = $this
             ->alias('u')
             ->join('userinfo i', 'i.user_id=u.id')
-            ->where('create_time','between time',[$startDay,$endDay])
+            ->where('create_time', 'between time', [$startDay,$endDay])
             ->where('i.sex', 2)
             ->field('u.username,u.create_time as createAt,i.sex as sex')
             ->select();
@@ -1093,5 +1093,41 @@ class User extends Model
         $userCharData['dataMan'] = $numMan;
         $userCharData['dataX'] = $dataX;
         return $userCharData;
+    }
+    // 获取首页柱状图数据
+    public function barCharData()
+    {
+        // 近七天新增用户数
+        $userNum = array();
+        $postNum = array();
+        $dataX = array();
+        $num=-2;
+        for ($i=0;$i<7;$i+=1) {
+            $num+=1;
+            $startDay = date('Y-m-d', strtotime('-'.($num+1).'days'));
+            $endDay = date('Y-m-d', strtotime('-'.($num).'days'));
+            // 近七天新增用户数
+            $newUser = $this
+            ->alias('u')
+            ->join('userinfo i', 'i.user_id=u.id')
+            ->where('create_time', 'between time', [$startDay,$endDay])
+            ->field('u.username,u.create_time as createAt,i.sex as sex')
+            ->select();
+            array_unshift($userNum, count($newUser));
+            // 近七天新增文章数
+            $newPost = \Db::table('post')
+            ->where('create_time', 'between time', [$startDay,$endDay])
+            ->select();
+            array_unshift($postNum, count($newPost));
+            // x轴
+            // 时间
+            $time = date('m-d', strtotime('-'.($num+1).'days'));
+            array_unshift($dataX, $time);
+        }
+        $seriesData['pageA'] = $userNum;
+        $seriesData['pageB'] = $postNum;
+        $barCharData['xAxisData'] = $dataX;
+        $barCharData['seriesData'] = $seriesData;
+        return $barCharData;
     }
 }

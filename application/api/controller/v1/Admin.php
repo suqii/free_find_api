@@ -129,6 +129,9 @@ class Admin extends BaseController
       $UserData=(new UserModel)->lineCharUserData();
       $PostData=(new PostModel)->lineCharPostData();
       $TopicData = (new TopicModel())->lineCharTopicModelData();
-      return self::showAdminResCode(20000, ['PostData'=>$PostData,'UserData'=>$UserData,'TopicData'=>$TopicData]);
+      $PieData = (new TopicModel())->pieCharData();
+      $BarData = (new UserModel)->barCharData();
+      return self::showAdminResCode(20000, ['PostData'=>$PostData,'UserData'=>$UserData,'TopicData'=>$TopicData,'pieChartData'=>$PieData,'barChartData'=>$BarData]);
+      // return self::showAdminResCode(20000, ['barChartData'=>$BarData]);
     }
 }
