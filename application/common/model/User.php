@@ -1179,4 +1179,26 @@ class User extends Model
         return $userarr;
         // return $user['admin'];
     }
+    // 设置用户为管理员
+    public function adminSet()
+    {
+      $currentUserId = request()->userId ? request()->userId : 0;
+      $userid = request()->param('user_id');
+      // 修改admin字段
+      $user = $this->get($userid);
+      $user->admin = 1;
+      $user->save();
+      return $user;
+    }
+    // 解除用户为管理员
+    public function adminCancel()
+    {
+      $currentUserId = request()->userId ? request()->userId : 0;
+      $userid = request()->param('user_id');
+      // 修改admin字段
+      $user = $this->get($userid);
+      $user->admin = 0;
+      $user->save();
+      return $user;
+    }
 }

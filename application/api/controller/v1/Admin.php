@@ -146,4 +146,16 @@ class Admin extends BaseController
         $user = (new UserModel())->changeStatusAble();
         return self::showAdminResCode(20000, $user);
     }
+    // 设置用户为管理员
+    public function adminSet()
+    {
+        $user = (new UserModel())->adminSet();
+        return self::showAdminResCode(20000, $user);
+    }
+    // 解除用户为管理员
+    public function adminCancel()
+    {
+        $user = (new UserModel())->adminCancel();
+        return self::showAdminResCode(20000, $user);
+    }
 }

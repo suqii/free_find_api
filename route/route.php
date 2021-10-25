@@ -117,6 +117,10 @@ Route::group('api/:version/', function () {
     Route::post('/vue-element-admin/user/changeStatusDisable', 'api/:version.Admin/changeStatusDisable');
     // 解除禁用
     Route::post('/vue-element-admin/user/changeStatusAble', 'api/:version.Admin/changeStatusAble');
+    // 设置用户为管理员
+    Route::post('/vue-element-admin/user/adminSet', 'api/:version.Admin/adminSet');
+    // 解除用户为管理员
+    Route::post('/vue-element-admin/user/adminCancel', 'api/:version.Admin/adminCancel');
    
 });
 
