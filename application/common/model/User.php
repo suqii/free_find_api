@@ -1153,4 +1153,30 @@ class User extends Model
         $barCharData['seriesData'] = $seriesData;
         return $barCharData;
     }
+    // 后台账号登录
+    public function adminLogin()
+    {
+        // 获取所有参数
+        $param = request()->param();
+        // 验证用户是否存在
+        $user = $this->isExist($this->filterUserData($param['username']));
+        // 用户不存在
+        if (!$user) {
+            TApiException('昵称/邮箱/手机号错误', 20000);
+        }
+        if (!$user['admin']) {
+            TApiException('非管理员登录', 20000);
+        }
+        // 用户是否被禁用
+        $this->checkStatus($user->toArray());
+        // 验证密码
+        $this->checkPassword($param['password'], $user->password);
+        // 登录成功 生成token，进行缓存，返回客户端
+        $userarr = $user->toArray();
+        $userarr['token'] = $this->CreateSaveToken($userarr);
+        $userarr['userinfo'] = $user->userinfo->toArray();
+        $userarr['password'] = $userarr['password'] ? true : false;
+        return $userarr;
+        // return $user['admin'];
+    }
 }

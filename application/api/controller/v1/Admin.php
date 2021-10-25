@@ -19,7 +19,7 @@ class Admin extends BaseController
         // 验证登录信息
         (new UserValidate())->goCheck('login');
         // 登录
-        $user = (new UserModel())->login();
+        $user = (new UserModel())->adminLogin();
         // return self::showResCode('登录成功', $user);
         return self::showAdminResCode(20000, ['token'=> "admin-token",'userinfo' => $user]);
     }
