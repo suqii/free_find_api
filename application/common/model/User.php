@@ -887,7 +887,7 @@ class User extends Model
     // 用户列表
     public function userList()
     {
-        return $this->field('id,username,phone,email,userpic,create_time,status')->select();
+        return $this->field('id,username,phone,email,userpic,create_time,status,admin')->select();
     }
     // 新增用户
     public function userCreate()
