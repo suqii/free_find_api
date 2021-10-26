@@ -12,7 +12,7 @@ class TopicClass extends Model
     // 获取所有话题分类
     public function getTopicClassList()
     {
-        return $this->field('id,classname,create_time,classpic')->where('status', 1)->select();
+        return $this->field('id,classname,create_time,classpic,longitude,latitude')->where('status', 1)->select();
     }
     
 

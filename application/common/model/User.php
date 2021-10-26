@@ -1050,29 +1050,7 @@ class User extends Model
         // 数据返回
         return $line;
     }
-    // 密码重置
-    // 修改密码
-    public function adminRepassword()
-    {
-        // // 获取所有参数
-        $params = request()->param();
-        // // 获取用户id
-        // $userid=request()->userId;
-        $userid = request()->param('user_id');
-        return $userid;
-        
-        // // 修改密码
-        // $newpassword = password_hash($params['newpassword'], PASSWORD_DEFAULT);
-        // $res = $this->save([
-        //     'password'=>$newpassword
-        // ], ['id'=>$userid]);
-        // if (!$res) {
-        //     TApiException('修改密码失败', 20009, 200);
-        // }
-        // $user['password'] = $newpassword;
-        // // 更新缓存信息
-        // Cache::set(request()->Token, $user, config('api.token_expire'));
-    }
+    
     // 获取首页折线图数据
     public function lineCharUserData()
     {
@@ -1200,5 +1178,31 @@ class User extends Model
       $user->admin = 0;
       $user->save();
       return $user;
+    }
+
+    // 密码重置
+    // 修改密码
+    public function adminRepassword()
+    {
+      $currentUserId = request()->userId ? request()->userId : 0;
+      $userid = request()->param('user_id');
+       $user = self::get($userid);
+       // 手机注册的用户并没有原密码,直接修改即可
+      //  if ($user['password']) {
+      //      // 判断旧密码是否正确
+      //      $this->checkPassword($params['oldpassword'], $user['password']);
+      //  }
+       // 修改密码
+       $newpassword = password_hash('123456', PASSWORD_DEFAULT);
+       $res = $this->save([
+           'password'=>$newpassword
+       ], ['id'=>$userid]);
+       if (!$res) {
+           TApiException('修改密码失败', 20009, 200);
+       }
+       $user['password'] = $newpassword;
+       // 更新缓存信息
+       Cache::set(request()->Token, $user, config('api.token_expire'));
+       return $res;
     }
 }

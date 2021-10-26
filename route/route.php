@@ -63,6 +63,8 @@ Route::group('api/:version/', function () {
     // 后台
     // 登录
     Route::post('/vue-element-admin/user/login', 'api/:version.Admin/login');
+    // 密码重置
+    Route::post('/vue-element-admin/adminRepassword', 'api/:version.Admin/adminRepassword');
     // logout
     Route::post('/vue-element-admin/user/logout', 'api/:version.Admin/logout');
     // list

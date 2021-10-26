@@ -158,4 +158,10 @@ class Admin extends BaseController
         $user = (new UserModel())->adminCancel();
         return self::showAdminResCode(20000, $user);
     }
+    // 密码重置
+    public function adminRepassword()
+    {
+        $user = (new UserModel())->adminRepassword();
+        return self::showAdminResCode(20000, $user);
+    }
 }
