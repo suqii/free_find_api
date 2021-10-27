@@ -52,12 +52,18 @@ class TopicClass extends Model
         $param = request()->param();
         $topicClass = $this->isExist(['classname'=>$param['classname']]);
         $classname = request()->param('classname');
+        $classpic = request()->param('classpic');
+        $longitude = request()->param('longitude');
+        $latitude = request()->param('latitude');
         $status = request()->param('status');
         // 分类不存在，直接添加
         if (!$topicClass) {
             $topicClass = self::create([
           'classname'=>$classname,
+          'classpic'=>$classpic,
           'status'=>$status,
+          'longitude'=>$longitude,
+          'latitude'=>$latitude,
           ]);
         }
         $topicClass->save();
@@ -74,8 +80,14 @@ class TopicClass extends Model
             $topicClass->classname = $params['classname'];
         }
         if (isset($params['classpic'])) {
-          $topicClass->classpic = $params['classpic'];
-       }
+            $topicClass->classpic = $params['classpic'];
+        }
+        if (isset($params['longitude'])) {
+            $topicClass->longitude = $params['longitude'];
+        }
+        if (isset($params['latitude'])) {
+            $topicClass->latitude = $params['latitude'];
+        }
         $topicClass->save();
         return $topicClass;
     }
