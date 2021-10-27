@@ -919,24 +919,24 @@ class User extends Model
     // 禁用用户
     public function changeStatusDisable()
     {
-      $currentUserId = request()->userId ? request()->userId : 0;
-      $userid = request()->param('user_id');
-      // 修改昵称
-      $user = $this->get($userid);
-      $user->status = 0;
-      $user->save();
-      return $user;
+        $currentUserId = request()->userId ? request()->userId : 0;
+        $userid = request()->param('user_id');
+        // 修改昵称
+        $user = $this->get($userid);
+        $user->status = 0;
+        $user->save();
+        return $user;
     }
     // 解除禁用
     public function changeStatusAble()
     {
-      $currentUserId = request()->userId ? request()->userId : 0;
-      $userid = request()->param('user_id');
-      // 修改昵称
-      $user = $this->get($userid);
-      $user->status = 1;
-      $user->save();
-      return $user;
+        $currentUserId = request()->userId ? request()->userId : 0;
+        $userid = request()->param('user_id');
+        // 修改昵称
+        $user = $this->get($userid);
+        $user->status = 1;
+        $user->save();
+        return $user;
     }
     // 编辑用户
     public function userEdit()
@@ -1160,71 +1160,73 @@ class User extends Model
     // 设置用户为管理员
     public function adminSet()
     {
-      $currentUserId = request()->userId ? request()->userId : 0;
-      $userid = request()->param('user_id');
-      // 修改admin字段
-      $user = $this->get($userid);
-      $user->admin = 1;
-      $user->save();
-      return $user;
+        $currentUserId = request()->userId ? request()->userId : 0;
+        $userid = request()->param('user_id');
+        // 修改admin字段
+        $user = $this->get($userid);
+        $user->admin = 1;
+        $user->save();
+        return $user;
     }
     // 解除用户为管理员
     public function adminCancel()
     {
-      $currentUserId = request()->userId ? request()->userId : 0;
-      $userid = request()->param('user_id');
-      // 修改admin字段
-      $user = $this->get($userid);
-      $user->admin = 0;
-      $user->save();
-      return $user;
+        $currentUserId = request()->userId ? request()->userId : 0;
+        $userid = request()->param('user_id');
+        // 修改admin字段
+        $user = $this->get($userid);
+        $user->admin = 0;
+        $user->save();
+        return $user;
     }
 
     // 密码重置
     // 修改密码
     public function adminRepassword()
     {
-      $currentUserId = request()->userId ? request()->userId : 0;
-      $userid = request()->param('user_id');
-       $user = self::get($userid);
-       // 手机注册的用户并没有原密码,直接修改即可
-      //  if ($user['password']) {
-      //      // 判断旧密码是否正确
-      //      $this->checkPassword($params['oldpassword'], $user['password']);
-      //  }
-       // 修改密码
-       $newpassword = password_hash('123456', PASSWORD_DEFAULT);
-       $res = $this->save([
+        $currentUserId = request()->userId ? request()->userId : 0;
+        $userid = request()->param('user_id');
+        $user = self::get($userid);
+        // 手机注册的用户并没有原密码,直接修改即可
+        //  if ($user['password']) {
+        //      // 判断旧密码是否正确
+        //      $this->checkPassword($params['oldpassword'], $user['password']);
+        //  }
+        // 修改密码
+        $newpassword = password_hash('123456', PASSWORD_DEFAULT);
+        $res = $this->save([
            'password'=>$newpassword
        ], ['id'=>$userid]);
-       if (!$res) {
-           TApiException('修改密码失败', 20009, 200);
-       }
-       $user['password'] = $newpassword;
-       // 更新缓存信息
-       Cache::set(request()->Token, $user, config('api.token_expire'));
-       return $res;
+        if (!$res) {
+            TApiException('修改密码失败', 20009, 200);
+        }
+        $user['password'] = $newpassword;
+        // 更新缓存信息
+        Cache::set(request()->Token, $user, config('api.token_expire'));
+        return $res;
     }
     // 验证码
     public function sendEmail()
     {
-      $email = request()->param('email');
-      if (Cache::get($email)) {
-          TApiException('你操作得太快了！', 30001);
-      }
-      $code = random_int(1000, 9999);
-      $title = '趣寻邮箱注册！';
-      $Address = $email;//收件人邮箱
-      $body = '趣寻邮箱验证码 <div style="font-size:36px;">'.$code.'</div>';
-      //这里有三个参数，分别是 邮件标题，收件人邮箱，邮件内容
-      $send = SendEmail($title, $Address, $body);
-      if($send){
-        return "发送成功";
-      } else {
-        return $send;
-      }; 
-      
-     
-    
+        $email = request()->param('email');
+        if (Cache::get($email)) {
+            TApiException('你操作得太快了！', 30001);
+        }
+        $code = random_int(1000, 9999);
+        $title = '趣寻邮箱注册！';
+        $Address = $email;//收件人邮箱
+        $body = '趣寻邮箱验证码 <div style="font-size:36px;">'.$code.'</div>';
+        //这里有三个参数，分别是 邮件标题，收件人邮箱，邮件内容
+        $send = SendEmail($title, $Address, $body);
+        //发送成功 写入缓存
+        if ($send) {
+            return Cache::set($email, $code);
+        }
+        if ($send) {
+            // return "发送成功";
+            return $send;
+        } else {
+            return $send;
+        };
     }
 }

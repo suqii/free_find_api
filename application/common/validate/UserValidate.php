@@ -15,6 +15,7 @@ class UserValidate extends BaseValidate
 	protected $rule = [
         'phone'=>'require|mobile',
         'code'=>'require|number|length:4|isPefectCode',
+        'code_email'=>'require|number|length:4|isPefectECode',
         'username'=>'require',
         'password'=>'require|alphaDash',
         'provider'=>'require',
@@ -52,7 +53,7 @@ class UserValidate extends BaseValidate
 
     // 配置场景
     protected $scene = [
-        // 发送验证码
+        // 发送手机验证码
         'sendCode'=>['phone'],
         // 手机号登录
         'phonelogin'=>['phone','code'],
