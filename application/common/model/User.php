@@ -1205,4 +1205,26 @@ class User extends Model
        Cache::set(request()->Token, $user, config('api.token_expire'));
        return $res;
     }
+    // 验证码
+    public function sendEmail()
+    {
+      $email = request()->param('email');
+      if (Cache::get($email)) {
+          TApiException('你操作得太快了！', 30001);
+      }
+      $code = random_int(1000, 9999);
+      $title = '趣寻邮箱注册！';
+      $Address = $email;//收件人邮箱
+      $body = '趣寻邮箱验证码 <div style="font-size:36px;">'.$code.'</div>';
+      //这里有三个参数，分别是 邮件标题，收件人邮箱，邮件内容
+      $send = SendEmail($title, $Address, $body);
+      if($send){
+        return "发送成功";
+      } else {
+        return $send;
+      }; 
+      
+     
+    
+    }
 }

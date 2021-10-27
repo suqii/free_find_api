@@ -228,5 +228,11 @@ class User extends BaseController
         $user =(new UserModel())->otherlogin();
         return self::showResCode('登录成功',$user);
     }
+    // 验证码
+    public function sendEmail()
+    {
+      $user =(new UserModel())->sendEmail();
+      return self::showAdminResCode(20000, $user);
+    }
   
 }

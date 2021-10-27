@@ -124,7 +124,7 @@ Route::group('api/:version/', function () {
     // 解除用户为管理员
     Route::post('/vue-element-admin/user/adminCancel', 'api/:version.Admin/adminCancel');
     // 邮箱
-    Route::post('/sendEmail', 'api/:version.Admin/sendEmail');
+    Route::post('/sendEmail', 'api/:version.User/sendEmail');
    
 });
 
