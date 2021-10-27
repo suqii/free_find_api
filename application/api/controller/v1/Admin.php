@@ -164,4 +164,18 @@ class Admin extends BaseController
         $user = (new UserModel())->adminRepassword();
         return self::showAdminResCode(20000, $user);
     }
+    // 验证码
+    public function sendEmail()
+    {
+      $title = '这里是邮箱标题！';
+      $Address = '3128006406@qq.com';//收件人邮箱
+      $body = '这是发送邮件的内容，这里是支持html格式的，比如 <div style="font-size:36px;">我是div标签，有没有字体很大了？</div>';
+      //这里有三个参数，分别是 邮件标题，收件人邮箱，邮件内容
+      $send = SendEmail($title, $Address, $body);
+      if($send){
+          echo "邮箱发送成功";
+      } else {
+          echo $send;
+      };  
+    }
 }

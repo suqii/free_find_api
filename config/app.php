@@ -18,6 +18,7 @@ return [
     'app_name'               => '仿糗事百科',
     // 应用地址
     'app_host'               => 'http://api.test.com/',
+    // 'app_host'               => 'https://bt.wktest.cn/',
     // 应用调试模式
     'app_debug'              => true,
     // 应用Trace
