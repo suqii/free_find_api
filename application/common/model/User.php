@@ -1209,13 +1209,20 @@ class User extends Model
     public function sendEmail()
     {
         $email = request()->param('email');
-        if (Cache::get($email)) {
-            TApiException('你操作得太快了！', 30001);
-        }
+        // if (Cache::get($email)) {
+        //     TApiException('你操作得太快了！', 30001);
+        // }
         $code = random_int(1000, 9999);
-        $title = '趣寻邮箱注册！';
+        $title = '欢迎使用趣寻！';
         $Address = $email;//收件人邮箱
-        $body = '趣寻邮箱验证码 <div style="font-size:36px;">'.$code.'</div>';
+        $logo = "http://suqiqi.oss-cn-beijing.aliyuncs.com/freeFind/logo1.png";
+        $header = "
+        <div style='display: flex;justify-content: center;align-items: center;'>
+          <div style='height: 100px; width: 100px;background: url(".$logo.") no-repeat center center;background-size: 100% 100%;'></div>
+          <div style='font-size:38px;'></div>
+        </div>
+        ";
+        $body = $header.'趣寻邮箱验证码： <div style="font-size:36px;color:rgb(218, 125, 0);">'.$code.'</div>请勿与任何人共享验证码，因为它会帮助他们访问您的趣寻账户。</br>';
         //这里有三个参数，分别是 邮件标题，收件人邮箱，邮件内容
         $send = SendEmail($title, $Address, $body);
         //发送成功 写入缓存
