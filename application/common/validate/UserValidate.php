@@ -55,8 +55,10 @@ class UserValidate extends BaseValidate
     protected $scene = [
         // 发送手机验证码
         'sendCode'=>['phone'],
-        // 手机号登录
+        // 手机号注册登录
         'phonelogin'=>['phone','code'],
+        // 邮箱注册登录
+        'emaillogin'=>['email','code_email'],
         // 账号密码登录
         'login'=>['username','password'],
         // 第三方登录

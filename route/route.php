@@ -13,8 +13,10 @@
 Route::group('api/:version/', function () {
     // 发送验证码
     Route::post('user/sendcode', 'api/:version.User/sendCode');
-    // 手机登录
+    // 手机注册登录
     Route::post('user/phonelogin', 'api/:version.User/phoneLogin');
+    // 邮箱注册登录
+    Route::post('user/phonelogin', 'api/:version.User/emailLogin');
     // 账号密码登录
     Route::post('user/login', 'api/:version.User/login');
     // 第三方登录
@@ -124,7 +126,9 @@ Route::group('api/:version/', function () {
     // 解除用户为管理员
     Route::post('/vue-element-admin/user/adminCancel', 'api/:version.Admin/adminCancel');
     // 邮箱
-    Route::post('/sendEmail', 'api/:version.User/sendEmail');
+    Route::post('/user/sendEmail', 'api/:version.User/sendEmail');
+    // 邮箱登录
+    Route::post('/user/emailLogin', 'api/:version.User/emailLogin');
    
 });
 

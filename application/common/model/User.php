@@ -1205,7 +1205,7 @@ class User extends Model
         Cache::set(request()->Token, $user, config('api.token_expire'));
         return $res;
     }
-    // 验证码
+    // 邮箱验证码
     public function sendEmail()
     {
         $email = request()->param('email');
@@ -1220,13 +1220,44 @@ class User extends Model
         $send = SendEmail($title, $Address, $body);
         //发送成功 写入缓存
         if ($send) {
-            return Cache::set($email, $code);
+            return Cache::set($email, $code,config('api.aliSMS.expire'));
         }
-        if ($send) {
-            // return "发送成功";
-            return $send;
-        } else {
-            return $send;
-        };
+        // 发送失败
+        TApiException('发送失败', 30004);
+    }
+
+    // 邮箱登录
+    public function emailLogin()
+    {
+        // 获取所有参数
+        $param = request()->param();
+        // 验证用户是否存在
+        $user = $this->isExist(['email'=>$param['email']]);
+        // 用户不存在，直接注册
+        if (!$user) {
+            // 用户主表
+            $user = self::create([
+                'username'=>$param['email'],
+                'email'=>$param['email'],
+                // 'password'=>password_hash($param['phone'],PASSWORD_DEFAULT)
+            ]);
+            // 在用户信息表创建对应的记录（用户存放用户其他信息）
+            $user->userinfo()->create([ 'user_id'=>$user->id ]);
+            $user->logintype = 'email';
+            $userarr = $user->toArray();
+            $userarr['token'] = $this->CreateSaveToken($userarr);
+            $userarr['userinfo'] = $user->userinfo->toArray();
+            $userarr['phone'] = false;
+            $userarr['password'] = false;
+            return $userarr;
+        }
+        // 用户是否被禁用
+        $this->checkStatus($user->toArray());
+        // 登录成功，返回token和用户信息
+        $userarr = $user->toArray();
+        $userarr['token'] = $this->CreateSaveToken($userarr);
+        $userarr['userinfo'] = $user->userinfo->toArray();
+        $userarr['password'] = $userarr['password'] ? true : false;
+        return $userarr;
     }
 }

@@ -19,13 +19,22 @@ class User extends BaseController
         return self::showResCodeWithOutData('发送成功');
     }
 
-    // 手机号码登录
+    // 手机号码注册登录
     public function phoneLogin(){
         // 验证登录信息
         (new UserValidate())->goCheck('phonelogin');
         // 手机登录
         $user = (new UserModel())->phoneLogin();
         return self::showResCode('登录成功',$user);
+    }
+    // 邮箱注册登录
+    public function emailLogin(){
+        // 验证登录信息
+        (new UserValidate())->goCheck('emaillogin');
+        // 手机登录
+        // return "邮箱登录";
+        $user = (new UserModel())->emailLogin();
+        return self::showResCode('邮箱登录成功',$user);
     }
 
     // 账号密码登录
@@ -228,11 +237,16 @@ class User extends BaseController
         $user =(new UserModel())->otherlogin();
         return self::showResCode('登录成功',$user);
     }
-    // 验证码
+    // 邮箱验证码
     public function sendEmail()
     {
-      $user =(new UserModel())->sendEmail();
-      return self::showAdminResCode(20000, $user);
+      $email =(new UserModel())->sendEmail();
+      if($email){
+        $data = '发送成功';
+      }else{
+        $data = '发送失败';
+      }
+      return self::showAdminResCode(20000, ['msg'=>$data]);
     }
   
 }
