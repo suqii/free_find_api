@@ -1209,9 +1209,9 @@ class User extends Model
     public function sendEmail()
     {
         $email = request()->param('email');
-        // if (Cache::get($email)) {
-        //     TApiException('你操作得太快了！', 30001);
-        // }
+        if (Cache::get($email)) {
+            TApiException('你操作得太快了！', 30001);
+        }
         $code = random_int(1000, 9999);
         $title = '欢迎使用趣寻！';
         $Address = $email;//收件人邮箱
