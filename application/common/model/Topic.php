@@ -51,7 +51,7 @@ class Topic extends Model
                 return $query->where('user_id', $userId);
             }])->withCount(['Ding','Cai','comment'])->get($posts[$i]->id)->toArray();
         }
-        return $arr;
+        return array_reverse($arr);
     }
 
     // 根据标题搜索话题
